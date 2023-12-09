@@ -3,6 +3,17 @@
 require_once(drupal_get_path('module', 'yoyal_itonics_products') . '/yoyal_itonics_products_helper.php');
 
 /**
+ * Implements hook_init().
+ */
+function yoyal_itonics_products_init() {
+  // Get the path to your CSS file.
+  $path = drupal_get_path('module', 'yoyal_itonics_products') . '/css/yoyal_itonics_style.css';
+
+  // Attach the CSS file.
+  drupal_add_css($path, array('group' => CSS_THEME, 'type' => 'file'));
+}
+
+/**
  * Implements hook_menu() to define menu items.
  */
 function yoyal_itonics_products_menu()
@@ -53,6 +64,8 @@ function yoyal_itonics_products_menu()
  */
 function yoyal_itonics_products_add_form($form, &$form_state)
 {
+  $categories = YoyalItonicsProductsHelper::get_category_list();
+
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -79,17 +92,22 @@ function yoyal_itonics_products_add_form($form, &$form_state)
     '#required' => TRUE,
   );
 
-  $form['category'] = array(
+  $form['my_multiselect_field'] = array(
     '#type' => 'select',
-    '#title' => t('Category'),
-    '#options' => array(
-      'category1' => 'Category 1',
-      'category2' => 'Category 2',
-      'category3' => 'Category 3',
-      // Add more categories as needed.
+    '#title' => t('My Multiselect Field'),
+    '#multiple' => TRUE, // Enable multiple selection.
+    '#options' => $categories,
+    '#attached' => array(
+      'library' => array(
+        'chosen/chosen.jquery', // Attach the Chosen library.
+      ),
+      'js' => array(
+        drupal_get_path('module', 'yoyal_itonics_products') . '/js/custom.js', // Add JavaScript file to initialize Chosen.
+      ),
     ),
-    '#multiple' => TRUE,
-    '#required' => TRUE,
+    '#attributes' => array(
+      'class' => array('chosen-select'), // Apply Chosen to this select field.
+    ),
   );
 
   $form['type'] = array(
@@ -117,7 +135,11 @@ function yoyal_itonics_products_add_form($form, &$form_state)
     '#title' => t('Expiry Date'),
     '#date_format' => 'Y-m-d', // Date format: Year-month-day.
     '#description' => t('Select the expiry date for the product.'),
+    '#prefix' => '<style>width: 100px</style>',
     '#required' => TRUE,
+    '#attributes' => array(
+      'class' => array('p-date'), // Apply Chosen to this select field.
+    ),
   );
 
   $form['submit'] = array(

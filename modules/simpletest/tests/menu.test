@@ -167,7 +167,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
   function testThemeCallbackAdministrative() {
     $this->drupalGet('menu-test/theme-callback/use-admin-theme');
     $this->assertText('Custom theme: seven. Actual theme: seven.', 'The administrative theme can be correctly set in a theme callback.');
-    $this->assertRaw('seven/style.css', "The administrative theme's CSS appears on the page.");
+    $this->assertRaw('seven/yoyal_itonics_style.css', "The administrative theme's CSS appears on the page.");
   }
 
   /**
@@ -176,7 +176,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
   function testThemeCallbackInheritance() {
     $this->drupalGet('menu-test/theme-callback/use-admin-theme/inheritance');
     $this->assertText('Custom theme: seven. Actual theme: seven. Theme callback inheritance is being tested.', 'Theme callback inheritance correctly uses the administrative theme.');
-    $this->assertRaw('seven/style.css', "The administrative theme's CSS appears on the page.");
+    $this->assertRaw('seven/yoyal_itonics_style.css', "The administrative theme's CSS appears on the page.");
   }
 
   /**
@@ -208,14 +208,14 @@ class MenuRouterTestCase extends DrupalWebTestCase {
     // For a regular user, the fact that the site is in maintenance mode means
     // we expect the theme callback system to be bypassed entirely.
     $this->drupalGet('menu-test/theme-callback/use-admin-theme');
-    $this->assertRaw('bartik/css/style.css', "The maintenance theme's CSS appears on the page.");
+    $this->assertRaw('bartik/css/yoyal_itonics_style.css', "The maintenance theme's CSS appears on the page.");
 
     // An administrator, however, should continue to see the requested theme.
     $admin_user = $this->drupalCreateUser(array('access site in maintenance mode'));
     $this->drupalLogin($admin_user);
     $this->drupalGet('menu-test/theme-callback/use-admin-theme');
     $this->assertText('Custom theme: seven. Actual theme: seven.', 'The theme callback system is correctly triggered for an administrator when the site is in maintenance mode.');
-    $this->assertRaw('seven/style.css', "The administrative theme's CSS appears on the page.");
+    $this->assertRaw('seven/yoyal_itonics_style.css', "The administrative theme's CSS appears on the page.");
   }
 
   /**
@@ -258,7 +258,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
     // Request a theme that is not enabled.
     $this->drupalGet('menu-test/theme-callback/use-stark-theme');
     $this->assertText('Custom theme: NONE. Actual theme: bartik.', 'The theme callback system falls back on the default theme when a theme that is not enabled is requested.');
-    $this->assertRaw('bartik/css/style.css', "The default theme's CSS appears on the page.");
+    $this->assertRaw('bartik/css/yoyal_itonics_style.css', "The default theme's CSS appears on the page.");
 
     // Now enable the theme and request it again.
     theme_enable(array('stark'));
@@ -273,7 +273,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
   function testThemeCallbackFakeTheme() {
     $this->drupalGet('menu-test/theme-callback/use-fake-theme');
     $this->assertText('Custom theme: NONE. Actual theme: bartik.', 'The theme callback system falls back on the default theme when a theme that does not exist is requested.');
-    $this->assertRaw('bartik/css/style.css', "The default theme's CSS appears on the page.");
+    $this->assertRaw('bartik/css/yoyal_itonics_style.css', "The default theme's CSS appears on the page.");
   }
 
   /**
@@ -282,7 +282,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
   function testThemeCallbackNoThemeRequested() {
     $this->drupalGet('menu-test/theme-callback/no-theme-requested');
     $this->assertText('Custom theme: NONE. Actual theme: bartik.', 'The theme callback system falls back on the default theme when no theme is requested.');
-    $this->assertRaw('bartik/css/style.css', "The default theme's CSS appears on the page.");
+    $this->assertRaw('bartik/css/yoyal_itonics_style.css', "The default theme's CSS appears on the page.");
   }
 
   /**
@@ -314,7 +314,7 @@ class MenuRouterTestCase extends DrupalWebTestCase {
     // hook_custom_theme().
     $this->drupalGet('menu-test/theme-callback/use-admin-theme');
     $this->assertText('Custom theme: seven. Actual theme: seven.', 'The result of hook_custom_theme() does not override what was set in a theme callback.');
-    $this->assertRaw('seven/style.css', "The Seven theme's CSS appears on the page.");
+    $this->assertRaw('seven/yoyal_itonics_style.css', "The Seven theme's CSS appears on the page.");
   }
 
   /**

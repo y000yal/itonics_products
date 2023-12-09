@@ -801,7 +801,7 @@ class CascadingStylesheetsTestCase extends DrupalWebTestCase {
    * Tests adding an external stylesheet.
    */
   function testAddExternal() {
-    $path = 'http://example.com/style.css';
+    $path = 'http://example.com/yoyal_itonics_style.css';
     $css = drupal_add_css($path, 'external');
     $this->assertEqual($css[$path]['type'], 'external', 'Adding an external CSS file caches it properly.');
   }
@@ -832,7 +832,7 @@ class CascadingStylesheetsTestCase extends DrupalWebTestCase {
    * Tests rendering an external stylesheet.
    */
   function testRenderExternal() {
-    $css = 'http://example.com/style.css';
+    $css = 'http://example.com/yoyal_itonics_style.css';
     drupal_add_css($css, 'external');
     $styles = drupal_get_css();
     // Stylesheet URL may be the href of a LINK tag or in an @import statement

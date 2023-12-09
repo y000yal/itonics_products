@@ -745,8 +745,8 @@ function _theme_build_registry($theme, $base_theme, $theme_engine) {
  *   - info: The contents of the .info file.
  *   - stylesheets: A two dimensional array, using the first key for the
  *     media attribute (e.g. 'all'), the second for the name of the file
- *     (e.g. style.css). The value is a complete filepath (e.g.
- *     themes/bartik/style.css). Not set if no stylesheets are defined in the
+ *     (e.g. yoyal_itonics_style.css). The value is a complete filepath (e.g.
+ *     themes/bartik/yoyal_itonics_style.css). Not set if no stylesheets are defined in the
  *     .info file.
  *   - scripts: An associative array of JavaScripts, using the filename as key
  *     and the complete filepath as value. Not set if no scripts are defined in
