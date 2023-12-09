@@ -1,0 +1,198 @@
+<?php
+
+require_once(drupal_get_path('module', 'yoyal_itonics_products') . '/yoyal_itonics_products_helper.php');
+
+/**
+ * Implements hook_menu() to define menu items.
+ */
+function yoyal_itonics_products_menu()
+{
+  $items = array();
+
+  // List all products.
+  $items['admin/products'] = array(
+    'title' => 'Products',
+    'description' => 'List of all products',
+    'page callback' => 'yoyal_itonics_products_list_page',
+    'access arguments' => array('administer_products'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Product detail page.
+  $items['admin/products/%'] = array(
+    'title' => 'Product details',
+    'page callback' => 'yoyal_itonics_products_detail_page',
+    'page arguments' => array(2),
+    'access arguments' => array('administer_products'),
+    'type' => MENU_CALLBACK,
+  );
+
+  // Add/Edit product page.
+  $items['admin/products/add'] = array(
+    'title' => 'Add Product',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yoyal_itonics_products_add_form'),
+    'access arguments' => array('administer_products'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Edit product page.
+  $items['admin/products/edit/%'] = array(
+    'title' => 'Edit Product',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yoyal_itonics_products_edit_form', 3),
+    'access arguments' => array('administer_products'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form callback to add a new product.
+ */
+function yoyal_itonics_products_add_form($form, &$form_state)
+{
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#required' => TRUE,
+  );
+
+  $form['image'] = array(
+    '#type' => 'file',
+    '#title' => t('Image'),
+    '#description' => t('Upload an image for the product.'),
+    '#required' => TRUE,
+  );
+
+  $form['summary'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Summary'),
+    '#required' => TRUE,
+  );
+
+  $form['description'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Description'),
+    '#format' => 'filtered_html', // Use 'filtered_html' for a basic HTML input.
+    '#required' => TRUE,
+  );
+
+  $form['category'] = array(
+    '#type' => 'select',
+    '#title' => t('Category'),
+    '#options' => array(
+      'category1' => 'Category 1',
+      'category2' => 'Category 2',
+      'category3' => 'Category 3',
+      // Add more categories as needed.
+    ),
+    '#multiple' => TRUE,
+    '#required' => TRUE,
+  );
+
+  $form['type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Type'),
+    '#options' => array(
+      'type1' => 'Type 1',
+      'type2' => 'Type 2',
+      'type3' => 'Type 3',
+      // Add more types as needed.
+    ),
+    '#required' => TRUE,
+  );
+
+  $form['owner_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Owner Email'),
+    '#description' => t('Enter the owner\'s email address.'),
+    '#required' => TRUE,
+    '#element_validate' => array('email_field_validate'), // Validate email format.
+  );
+
+  $form['expiry_date'] = array(
+    '#type' => 'date',
+    '#title' => t('Expiry Date'),
+    '#date_format' => 'Y-m-d', // Date format: Year-month-day.
+    '#description' => t('Select the expiry date for the product.'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add Product'),
+  );
+
+  return $form;
+
+}
+
+/**
+ * Form callback to edit a product.
+ */
+function yoyal_itonics_products_edit_form($form, &$form_state, $pid)
+{
+  // Form elements for editing a product go here.
+  // Retrieve product details using $pid and populate form fields.
+  // Example: $product = yoyal_itonics_products_load_product($pid);
+  // ...
+
+  return $form;
+}
+
+/**
+ * Callback function for displaying a list of all products.
+ */
+function yoyal_itonics_products_list_page() {
+  // Fetch all products.
+  $products = YoyalItonicsProductsHelper::yoyal_itonics_products_get_products();
+
+  // Render HTML to display the list of products in a table.
+  $output = '<h2>List of Products</h2>';
+  $output .= '<table>';
+  $output .= '<thead><tr><th>Title</th><th>Summary</th><th>Description</th></tr></thead>';
+  $output .= '<tbody>';
+
+  foreach ($products as $product) {
+    // Generate table rows for each product.
+    $output .= '<tr>';
+    $output .= '<td>' . $product['title'] . '</td>';
+    $output .= '<td>' . $product['summary'] . '</td>';
+    $output .= '<td>' . $product['description'] . '</td>';
+    // Add more table columns for other product details as needed.
+    // For instance: $output .= '<td>' . $product['category'] . '</td>';
+    $output .= '</tr>';
+  }
+
+  $output .= '</tbody>';
+  $output .= '</table>';
+  // Add 'Add Product' button/link.
+  $output .= l('Add Product', 'admin/products/add', array(
+    'attributes' => array(
+      'class' => array('button'), // Adjust the class for styling if needed.
+    ),
+  ));
+
+  return $output;
+}
+
+/**
+ * Page callback to display product details.
+ */
+function yoyal_itonics_products_detail_page($pid)
+{
+  // Retrieve and display detailed information about a specific product.
+  // Example: $product = yoyal_itonics_products_load_product($pid);
+  // ...
+
+  return $output;
+}
+
+// Functions for CRUD operations on products go here.
+// Implement functions to add, edit, delete, and retrieve products from the database.
+// Example: yoyal_itonics_products_add_product(), yoyal_itonics_products_edit_product(), etc.
+// ...
+
+?>

@@ -1,0 +1,6 @@
+name = Yoyal ITONICS Products
+description = Module to manage products in ITONICS
+core = 7.x
+package = Custom
+dependencies[] = field
+

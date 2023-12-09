@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * Implements hook_schema() to define the database schema.
+ */
+function yoyal_itonics_products_schema() {
+  $schema['yoyal_itonics_products'] = array(
+    'description' => 'Table to store ITONICS products',
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Product ID',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Title of the product',
+      ),
+      'image' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'description' => 'Path to the product image file',
+      ),
+      'summary' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'Summary of the product',
+      ),
+      'description' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'Description of the product',
+      ),
+      'category' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Category of the product',
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'description' => 'Type of the product',
+      ),
+      'owner_email' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Owner email of the product',
+      ),
+      'expiry_date' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Expiry date of the product',
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
+
+  $schema['media'] = array(
+    'description' => 'Table for storing media related to products.',
+    'fields' => array(
+      'media_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique media ID.',
+      ),
+      'product_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Foreign key referencing the products table.',
+      ),
+      'image_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Name of the image file.',
+      )
+    ),
+    'primary key' => array('media_id'),
+    'foreign keys' => array(
+      'product_id' => array(
+        'table' => 'products',
+        'columns' => array('product_id'),
+        'references' => array('pid'),
+        'on delete' => 'CASCADE', // Delete media if related product is deleted.
+        'on update' => 'CASCADE',
+      ),
+    ),
+  );
+
+  return $schema;
+}
