@@ -4,3 +4,43 @@
 #edit-expiry-date .p-date{
   width: 100px;
 }
+.delete-button {
+  color: red;
+}
+/* Custom CSS for Product Details Page */
+.product-details {
+  margin: 20px; /* Add margin as needed */
+  border: 1px solid #ccc; /* Border for the product details */
+  border-radius: 5px;
+  overflow: hidden; /* Clear floats within the container */
+}
+
+.product-content {
+  display: flex; /* Use flexbox for layout */
+  align-items: center;
+}
+
+.product-details-right {
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Padding for the left section */
+}
+
+.product-details-left img {
+  min-width: 100%;
+  display: block; /* Ensure image doesn't affect the text flow */
+  padding: 10px;
+}
+
+/* Additional styling for categories */
+.product-category {
+  background-color: #007bff; /* Background color */
+  color: white; /* Text color */
+  padding: 5px 8px; /* Padding */
+  border-radius: 4px; /* Rounded corners */
+  margin-right: 5px; /* Spacing between categories */
+}
+.p-bottom {
+  display: flex;
+  justify-content: space-between;
+}

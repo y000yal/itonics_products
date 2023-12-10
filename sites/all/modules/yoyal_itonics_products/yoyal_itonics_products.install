@@ -60,40 +60,6 @@ function yoyal_itonics_products_schema() {
     ),
     'primary key' => array('pid'),
   );
-
-  $schema['yoyal_itonics_media'] = array(
-    'description' => 'Table for storing media related to products.',
-    'fields' => array(
-      'media_id' => array(
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'description' => 'Primary Key: Unique media ID.',
-      ),
-      'product_id' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'description' => 'Foreign key referencing the products table.',
-      ),
-      'image_name' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'description' => 'Name of the image file.',
-      )
-    ),
-    'primary key' => array('media_id'),
-    'foreign keys' => array(
-      'product_id' => array(
-        'table' => 'yoyal_itonics_products',
-        'columns' => array('product_id'),
-        'references' => array('pid'),
-        'on delete' => 'CASCADE', // Delete media if related product is deleted.
-        'on update' => 'CASCADE',
-      ),
-    ),
-  );
   $schema['yoyal_itonics_categories'] = array(
     'description' => 'Table for storing categories',
     'fields' => array(
@@ -143,7 +109,7 @@ function yoyal_itonics_products_schema() {
         'on update' => 'CASCADE',
       ),
       'category_id' => array(
-        'table' => 'products',
+        'table' => 'yoyal_itonics_categories',
         'columns' => array('category_id'),
         'references' => array('cid'),
         'on delete' => 'CASCADE',
@@ -151,6 +117,5 @@ function yoyal_itonics_products_schema() {
       ),
     ),
   );
-
   return $schema;
 }
